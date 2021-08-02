@@ -142,7 +142,7 @@ if has('nvim')
     let l:style = s:_resolve_origin(a:style)
     let l:style = s:_resolve_border(l:style)
     let l:style = {
-    \   'relative': 'editor',
+    \   'relative': l:style.relative,
     \   'row': l:style.row - 1,
     \   'col': l:style.col - 1,
     \   'width': l:style.width,
