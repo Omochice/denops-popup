@@ -24,8 +24,8 @@ const init = memo(async (denops: Denops) => {
  */
 export type PopupWindowStyle = {
   relative: string;
-  row: number;
-  col: number;
+  row: number | string;
+  col: number | string;
   width: number;
   height: number;
   border?: boolean;
