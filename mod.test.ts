@@ -11,6 +11,7 @@ test({
       closed: false,
     };
     const winid = await popup.open(denops, bufnr, {
+      relative: "win",
       row: 3,
       col: 3,
       width: 10,
@@ -23,6 +24,7 @@ test({
     });
     assertEquals(await popup.isVisible(denops, winid), true);
     assertEquals(await popup.info(denops, winid), {
+      relative: "win",
       row: 3,
       col: 3,
       width: 10,
@@ -31,6 +33,7 @@ test({
     });
 
     await popup.move(denops, winid, {
+      relative: "win",
       row: 5,
       col: 5,
       width: 12,
@@ -39,6 +42,7 @@ test({
     });
     assertEquals(await popup.isVisible(denops, winid), true);
     assertEquals(await popup.info(denops, winid), {
+      relative: "win",
       row: 5,
       col: 5,
       width: 12,
