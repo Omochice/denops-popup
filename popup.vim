@@ -219,27 +219,50 @@ endfunction
 "
 if has('nvim')
   function! s:_resolve_border(style) abort
-    if !empty(get(a:style, 'border', v:null))
+    if has_key(a:style, 'border') && type(a:style.border) == v:t_dict
+      let a:style.border = [
+            \ a:style.border.topLeft,
+            \ a:style.border.top,
+            \ a:style.border.topRight,
+            \ a:style.border.right,
+            \ a:style.border.bottomRight,
+            \ a:style.border.bottom,
+            \ a:style.border.bottomLeft,
+            \ a:style.border.left,
+            \ ]
+    elseif has_key(a:style, 'border') && a:style.border == 'none'
+      unlet a:style.border
+    else " set border automatically
       if &ambiwidth ==# 'single'
         let a:style.border = ['┌', '─', '┐', '│', '┘', '─', '└', '│']
       else
         let a:style.border = ['+', '-', '+', '|', '+', '-', '+', '|']
       endif
-    elseif has_key(a:style, 'border')
       unlet a:style.border
     endif
     return a:style
   endfunction
 else
   function! s:_resolve_border(style) abort
-    if !empty(get(a:style, 'border', v:null))
+    if has_key(a:style, 'border') && type(a:style.border) == v:t_dict
+      let a:style.border = [
+            \ a:style.border.top,
+            \ a:style.border.right,
+            \ a:style.border.bottom,
+            \ a:style.border.left,
+            \ a:style.border.topLeft,
+            \ a:style.border.topRight,
+            \ a:style.border.bottomRight,
+            \ a:style.border.bottomLeft,
+            \ ]
+    elseif has_key(a:style, 'border') && a:style.border == 'none'
+      unlet a:style.border
+    else
       if &ambiwidth ==# 'single'
         let a:style.border = ['─', '│', '─', '│', '┌', '┐', '┘', '└']
       else
         let a:style.border = ['-', '|', '-', '|', '+', '+', '+', '+']
       endif
-    elseif has_key(a:style, 'border')
-      unlet a:style.border
     endif
     return a:style
   endfunction

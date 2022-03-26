@@ -20,6 +20,20 @@ const init = memo(async (denops: Denops) => {
 });
 
 /**
+ * border
+ */
+type BorderStyle = {
+  topLeft: string;
+  top: string;
+  topRight: string;
+  right: string;
+  bottomRight: string;
+  bottom: string;
+  bottomLeft: string;
+  left: string;
+};
+
+/**
  * popup window style definition.
  */
 export type PopupWindowStyle = {
@@ -27,7 +41,7 @@ export type PopupWindowStyle = {
   col: number;
   width: number;
   height: number;
-  border?: boolean;
+  border?: BorderStyle | "none";
   topline?: number;
   origin?:
     | "topleft"
