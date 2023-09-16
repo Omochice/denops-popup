@@ -1,4 +1,4 @@
-import { Denops, ensure, is, load, once } from "./deps.ts";
+import { Denops, ensure, is, load, register } from "./deps.ts";
 
 const memo = <A extends unknown[], R extends Promise<unknown>>(
   f: (denops: Denops, ...args: A) => R,
@@ -76,7 +76,7 @@ export async function open(
   },
 ): Promise<number> {
   await init(denops);
-  const [onClose] = once(denops, event?.onClose ?? noop);
+  const onClose = register(denops, event?.onClose ?? noop, { once: true });
   const winid = await denops.call("Denops_popup_window_open", bufnr, style, {
     onClose: [denops.name, onClose],
   });
