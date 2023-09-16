@@ -1,4 +1,4 @@
-import { Denops, ensureNumber, load, once } from "./deps.ts";
+import { Denops, ensure, is, load, once } from "./deps.ts";
 
 const memo = <A extends unknown[], R extends Promise<unknown>>(
   f: (denops: Denops, ...args: A) => R,
@@ -80,8 +80,7 @@ export async function open(
   const winid = await denops.call("Denops_popup_window_open", bufnr, style, {
     onClose: [denops.name, onClose],
   });
-  ensureNumber(winid);
-  return winid;
+  return ensure(winid, is.Number);
 }
 
 /**
@@ -131,24 +130,28 @@ export async function isVisible(
   winid: number,
 ): Promise<boolean> {
   await init(denops);
-  const is = await denops.call("Denops_popup_window_is_visible", winid);
-  ensureNumber(is);
-  return (is === 1) && isPopupWindow(denops, winid);
+  const isVisible = ensure(
+    await denops.call("Denops_popup_window_is_visible", winid),
+    is.Number,
+  );
+  return (isVisible === 1) && isPopupWindow(denops, winid);
 }
 
 /**
  * Return the specified winid is popup or not.
  *
  * NOTE: If specified winid is not a valid window, this API always return false.
-*/
+ */
 export async function isPopupWindow(
   denops: Denops,
   winid: number,
 ): Promise<boolean> {
   await init(denops);
-  const is = await denops.call("Denops_popup_window_is_popup_window", winid);
-  ensureNumber(is);
-  return is === 1;
+  const isPopup = ensure(
+    await denops.call("Denops_popup_window_is_popup_window", winid),
+    is.Number,
+  );
+  return isPopup === 1;
 }
 
 const assert = async (denops: Denops, winid: number): Promise<void> => {
